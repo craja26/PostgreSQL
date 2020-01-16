@@ -13,6 +13,8 @@ psql -Upostgres
 #exit from postgresql
 \q
 
+# find conf file
+SHOW config_file;
 
 # create a user and grant read-only access.
 CREATE USER <user_name> WITH PASSWORD '<password>';
