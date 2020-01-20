@@ -10,6 +10,9 @@ psql -Upostgres
 #list tables
 \dt
 
+#get the list of users
+\du or \du+
+
 #exit from postgresql
 \q
 
