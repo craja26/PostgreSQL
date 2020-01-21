@@ -1,4 +1,4 @@
-# Moving the PostgreSQL Data Directory.
+#Moving the PostgreSQL Data Directory.
 -> find data directory.
 SHOW data_directory;
  data_directory
