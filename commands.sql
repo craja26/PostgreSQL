@@ -36,3 +36,7 @@ host   all             all              <ip address>   255.255.255.255         p
 We need to reload the configuration file to effect changes.(Note: No need to restart services.)
 SELECT pg_reload_conf();
 
+-- Create extension
+CREATE EXTENSION pgstattuple WITH schema reporting;
+
+
