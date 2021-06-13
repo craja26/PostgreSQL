@@ -5,7 +5,9 @@ SELECT
   pg_size_pretty(table_size) AS table_size,
   pg_size_pretty(total_relation_size) AS occupied_size,
   pg_size_pretty(index_size) as index_size,
-  pg_size_pretty(unused_space) as unused_space
+  pg_size_pretty(unused_space) as unused_space,
+  CASE WHEN unused_space > 0 THEN (unused_space*100.0/total_relation_size)  
+  	ELSE  0 END as unused_percentage
 FROM (
     select pg_catalog.pg_class.reltype ,
         pg_catalog.pg_namespace.nspname           AS schema_name,
