@@ -36,7 +36,8 @@ su - postgres
 pgbackrest --stanza=pg0app --log-level-console=info check
 
 # Perform a Backup
-# By default pgBackRest will attemp to perform an incremental backup. However, an incremental backup must be based on a full backup and since no full backup existed pgBackRest ran a full backup instead.
+# By default pgBackRest will attemp to perform an incremental backup. However, an incremental backup must be based on a full backup and 
+# since no full backup existed pgBackRest ran a full backup instead.
 pgbackrest backup --type=full --stanza=pg0app --log-level-console=info 
 
 
