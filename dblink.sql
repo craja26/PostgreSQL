@@ -10,4 +10,5 @@ GRANT USAGE ON FOREIGN SERVER <Remote Server> TO <Local User>;
 SELECT dblink_connect('conn_db_link','<Remote Server>'); 
 
 # testing
-SELECT * from dblink('conn_db_link','select * from public.table_name limit 10')
+SELECT * from dblink('conn_db_link','select * from public.table_name limit 10');
+
