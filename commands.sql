@@ -39,4 +39,16 @@ SELECT pg_reload_conf();
 -- Create extension
 CREATE EXTENSION pgstattuple WITH schema reporting;
 
+------- Create read-only user account --------------
+## create read_only user
+CREATE ROLE <read_only_user> WITH LOGIN PASSWORD '<pwd>' 
+NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION VALID UNTIL 'infinity';
+
+GRANT CONNECT ON DATABASE <db_name> TO <read_only_user>;
+GRANT USAGE ON SCHEMA public TO <read_only_user>;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO <read_only_user>;
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO <read_only_user>;
+--Assign permissions to read all newly tables created in the future
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO <read_only_user>;
+
 
