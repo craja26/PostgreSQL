@@ -41,3 +41,13 @@ pgbackrest --stanza=pg0app --log-level-console=info check
 pgbackrest backup --type=full --stanza=pg0app --log-level-console=info 
 
 
+# information about the backup
+pgbackrest --stanza=pg0app --set=20210801-033002F_20210801-123001I info  
+
+# restore database required data folder to be empty.
+# here is the command to restore database without delete files in data folder
+pgbackrest --stanza=pg0app --delta --log-level-console=detail restore --type=immediate --target-action=promote --set=20210801-033002F_20210801-123001I
+
+# restore command.
+pgbackrest --stanza=pg0app --delta --log-level-console=detail restore --type=immediate --target-action=promote --set=20210801-033002F
+
