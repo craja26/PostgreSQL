@@ -52,3 +52,32 @@ GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO <read_only_user>;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO <read_only_user>;
 
 
+
+/*******blocked processes and blocking queries********/
+SELECT
+    activity.pid,
+    activity.usename,
+    activity.query,
+    blocking.pid AS blocking_id,
+    blocking.query AS blocking_query
+FROM pg_stat_activity AS activity
+JOIN pg_stat_activity AS blocking ON blocking.pid = ANY(pg_blocking_pids(activity.pid));
+
+--https://www.shanelynn.ie/postgresql-find-slow-long-running-and-blocked-queries/
+
+
+/*****Postgres current running queries****/
+SELECT datname, pid, state, query, age(clock_timestamp(), query_start) AS age 
+FROM pg_stat_activity
+WHERE state <> 'idle' 
+    AND query NOT LIKE '% FROM pg_stat_activity%' 
+ORDER BY age;
+
+
+/***** Postgresql pid details from linux machine *****/
+# su - postgres
+$ ps -elf --forest
+
+
+
+
