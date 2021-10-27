@@ -23,7 +23,7 @@ chown -R postgres:postgres /var/lib/pgbackrest/
 
 # Update postgres conf file for archiving.
 archive_mode = on
-archive_command = 'pgbackrest --stanza=demo archive-push %p'
+archive_command = 'pgbackrest --stanza=pg0app archive-push %p'
 # Restart postgres
 systemctl restart postgresql-11
 
