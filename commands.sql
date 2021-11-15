@@ -97,7 +97,44 @@ SELECT grantee AS user, CONCAT(table_schema, '.', table_name) AS table,
 FROM information_schema.role_table_grants
 GROUP BY table_name, table_schema, grantee;
 
-/*********************/
+
+/********** Each table size, tuples, autovacuum and autoanalysiz ***********/
+SELECT
+  schema_name,
+  t.relname,
+  pg_size_pretty(table_size) AS table_size,
+  pg_size_pretty(total_relation_size) AS occupied_size,
+  pg_size_pretty(index_size) as index_size,
+  pg_size_pretty(unused_space) as unused_space,
+  ps.n_live_tup, 
+  ps.n_dead_tup, last_vacuum, last_autovacuum, last_analyze, last_autoanalyze 
+FROM (
+    select pg_catalog.pg_class.reltype ,
+        pg_catalog.pg_namespace.nspname           AS schema_name,
+        relname,
+        pg_relation_size(pg_catalog.pg_class.oid) AS table_size,
+            pg_total_relation_size(pg_catalog.pg_class.oid) AS total_relation_size,
+            pg_indexes_size(pg_catalog.pg_class.oid) as index_size,
+            (pg_total_relation_size(pg_catalog.pg_class.oid) - pg_relation_size(pg_catalog.pg_class.oid)) as unused_space
+    FROM pg_catalog.pg_class
+    JOIN pg_catalog.pg_namespace ON relnamespace = pg_catalog.pg_namespace.oid
+    WHERE  pg_catalog.pg_class.reltype not in (0,16614,16755) and pg_catalog.pg_namespace.nspname NOT in ('information_schema','sqlj') and pg_catalog.pg_namespace.nspname  not LIKE 'pg_%'
+	--and relname in ('pr_sys_app_hierarchy_flat','pr_sys_ruleset_index','pr4_rule_vw','pr_sys_appcache_dep')
+    ) t left join pg_stat_user_tables ps on ps.relname = t.relname and ps.schemaname = t.schema_name
+ORDER BY total_relation_size - table_size DESC;  
+
+
+/**** Size of a schema ****/
+select pg_size_pretty(sum(pg_total_relation_size(quote_ident(schemaname) || '.' || quote_ident(tablename)))::bigint) from pg_tables where schemaname ='reporting_bak'
+
+
+/******* Get index information for table ********/
+SELECT 
+	tablename, indexname, indexdef
+FROM pg_indexes
+WHERE schemaname = 'schema_name' and tablename = 'table_name'
+ORDER BY tablename, indexname;
+-- # Note: tablename and schemaname are case-sensitive.
 
 
 
