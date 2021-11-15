@@ -119,7 +119,7 @@ FROM (
     FROM pg_catalog.pg_class
     JOIN pg_catalog.pg_namespace ON relnamespace = pg_catalog.pg_namespace.oid
     WHERE  pg_catalog.pg_class.reltype not in (0,16614,16755) and pg_catalog.pg_namespace.nspname NOT in ('information_schema','sqlj') and pg_catalog.pg_namespace.nspname  not LIKE 'pg_%'
-	--and relname in ('pr_sys_app_hierarchy_flat','pr_sys_ruleset_index','pr4_rule_vw','pr_sys_appcache_dep')
+	--and relname in ('tablename')
     ) t left join pg_stat_user_tables ps on ps.relname = t.relname and ps.schemaname = t.schema_name
 ORDER BY total_relation_size - table_size DESC;  
 
