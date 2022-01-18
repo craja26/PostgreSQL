@@ -37,7 +37,7 @@ We need to reload the configuration file to effect changes.(Note: No need to res
 SELECT pg_reload_conf();
 
 -- Create extension
-CREATE EXTENSION pgstattuple WITH schema reporting;
+CREATE EXTENSION pgstattuple WITH schema <schema_name>;
 
 ------- Create read-only user account --------------
 ## create read_only user
@@ -51,7 +51,8 @@ GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO <read_only_user>;
 --Assign permissions to read all newly tables created in the future
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO <read_only_user>;
 
-
+/****** Copy SELECT results into csv file ******/
+\copy (SELECT col1, col2 from schemaname.tablename where col3 = '') to '/var/lib/pgsql/11/backups/filename.csv' with CSV DELIMITER ',' HEADER
 
 /*******blocked processes and blocking queries********/
 SELECT
