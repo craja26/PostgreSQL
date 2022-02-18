@@ -138,4 +138,7 @@ ORDER BY tablename, indexname;
 -- # Note: tablename and schemaname are case-sensitive.
 
 
+/****** Postgresql cleanup WALs *****/
+/usr/pgsql-11/bin/pg_archivecleanup -n /var/lib/pgsql/11/data/pg_wal 00000001000000C6000000DF | wc -l
+/usr/pgsql-11/bin/pg_archivecleanup -d /var/lib/pgsql/11/data/pg_wal 00000001000000C6000000DF
 
