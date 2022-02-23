@@ -12,3 +12,5 @@ SELECT dblink_connect('conn_db_link','<Remote Server>');
 # testing
 SELECT * from dblink('conn_db_link','select * from public.table_name limit 10');
 
+# get list of dblinks
+select * from information_schema._pg_foreign_servers;
