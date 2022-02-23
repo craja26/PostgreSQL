@@ -14,3 +14,10 @@ SELECT * from dblink('conn_db_link','select * from public.table_name limit 10');
 
 # get list of dblinks
 select * from information_schema._pg_foreign_servers;
+
+
+## drop user mapping
+DROP USER MAPPING [ IF EXISTS ] FOR { user_name | USER | CURRENT_USER | PUBLIC } SERVER server_name
+
+## DROP FOREIGN DATA WRAPPER — remove a foreign-data wrapper
+DROP SERVER [ IF EXISTS ] name [, ...] [ CASCADE | RESTRICT ]
